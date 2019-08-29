@@ -2,15 +2,26 @@
 
 A new Flutter application.
 
-## Getting Started
+## Summary
+```
+이 프로젝트는 Flutter Sample용 앱이다.
+```
 
-This project is a starting point for a Flutter application.
+## 파일 상세 설명 
+> main.dart
+  - 시작 페이지
+  - BottomNavigationBar를 통하여 Home, Chat, Word 페이지 연결 
+> home.dart
+  - Home View
+  - 기본적인 위젯을 사용하여 제작한 페이지 
+> chat.dart
+  - Chat View 
+  - Animation, 채팅 입력 및 출력 
+> word.dart
+  - english_word 패키지를 이용한 랜덤 단어 출력
+  - ListView 사용 
+  - 선택된 페이지를 따로 출력 및 상태 변경
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 참조
+* [Flutter](https://flutter.dev/docs/development/ui/layout/tutorial)
+* [BottomNavigationBar](https://medium.com/flutteropen/flutter-widgets-11-bottomnavigationbar-3531d625fa0c)
