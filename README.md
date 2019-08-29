@@ -1,7 +1,5 @@
 # flutter_sample01
 
-A new Flutter application.
-
 ## Summary
 ```
 이 프로젝트는 Flutter Sample용 앱이다.
@@ -25,3 +23,6 @@ A new Flutter application.
 ## 참조
 * [Flutter](https://flutter.dev/docs/development/ui/layout/tutorial)
 * [BottomNavigationBar](https://medium.com/flutteropen/flutter-widgets-11-bottomnavigationbar-3531d625fa0c)
+=======
+# flutter_sample01
+>>>>>>> 29d527f33eea3a4dade3159a4e58eb8fd76c7362
