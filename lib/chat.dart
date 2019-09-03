@@ -21,34 +21,60 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text('Flutter Sample Chat'),
       ),
-      body: Container(
-          child: Column(
-            children: <Widget>[
-              new Flexible(
-                  child: ListView.builder(
-                    padding: new EdgeInsets.all(8.0),
-                    reverse: false,
-                    itemBuilder: (_, int index) => _messages[index],
-                    itemCount: _messages.length,
-                  )
+    body: DecoratedBox(
+      decoration: const BoxDecoration(
+          color: Color(0xfff0f0f0)
+      ),
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Flexible(
+                child: ListView.builder(
+                padding: new EdgeInsets.all(8.0),
+                reverse: false,
+                itemBuilder: (_, int index) => _messages[index],
+                itemCount: _messages.length,
+                )
+            ),
+            Divider(height: 1),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor
               ),
-              new Divider(height: 1.0),
-              new Container(
-                decoration: new BoxDecoration(
-                    color: Theme.of(context).cardColor
-                ),
-                child: _buildTextComposer(),
-              )
-            ],
-          ),
-          decoration: Theme.of(context).platform == TargetPlatform.iOS
-              ? new BoxDecoration(
-              border: new Border(
-                  top: new BorderSide(color: Colors.grey[200])
-              )
-          )
-              : null
-      )
+              child: _buildTextComposer()
+            )
+          ],
+        ),
+      ),
+    ),
+//      body: Container(
+//          child: Column(
+//            children: <Widget>[
+//              new Flexible(
+//                  child: ListView.builder(
+//                    padding: new EdgeInsets.all(8.0),
+//                    reverse: false,
+//                    itemBuilder: (_, int index) => _messages[index],
+//                    itemCount: _messages.length,
+//                  )
+//              ),
+//              new Divider(height: 1.0),
+//              new Container(
+//                decoration: new BoxDecoration(
+//                    color: Theme.of(context).cardColor
+//                ),
+//                child: _buildTextComposer(),
+//              )
+//            ],
+//          ),
+//          decoration: Theme.of(context).platform == TargetPlatform.iOS
+//              ? new BoxDecoration(
+//              border: new Border(
+//                  top: new BorderSide(color: Colors.grey[200])
+//              )
+//          )
+//              : null
+//      )
     );
   }
 
@@ -62,13 +88,13 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
   }
 
   Widget _buildTextComposer() {
-    return new IconTheme(
-        data: new IconThemeData(color: Theme.of(context).accentColor),
-        child: new Container(
+    return IconTheme(
+        data: IconThemeData(color: Theme.of(context).accentColor),
+        child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: <Widget>[
-                new Flexible(child: TextField(
+                Flexible(child: TextField(
                   controller: _textEditingController,
                   onChanged: (String text) {
                     setState(() {
@@ -76,21 +102,21 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
                     });
                   },
                   onSubmitted: _handleSubmitted,
-                  decoration: new InputDecoration.collapsed(hintText: "input the text"),
+                  decoration: InputDecoration.collapsed(hintText: "input the text"),
                 ),
                 ),
-                new Container(
-                    margin: new EdgeInsets.symmetric(horizontal: 4.0),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 4.0),
                     child:
                     Theme.of(context).platform == TargetPlatform.iOS
-                        ? new CupertinoButton(
-                        child: new Text("Send"),
+                        ? CupertinoButton(
+                        child: Text("Send"),
                         onPressed: _isComposing
                             ? () => _handleSubmitted(_textEditingController.text)
                             : null
                     )
-                        : new IconButton(
-                        icon: new Icon(Icons.send),
+                        : IconButton(
+                        icon: Icon(Icons.send),
                         onPressed: () => _isComposing
                             ? _handleSubmitted(_textEditingController.text)
                             : null

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'chat.dart';
@@ -24,46 +25,52 @@ class Route extends StatefulWidget {
 
 class RouteState extends State<Route> {
 
-  int _currentIdx = 0;
-  final List<Widget> _children = [
-    Home(),
-    Word(),
-    Chat()
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _children[_currentIdx],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIdx,
-        type: BottomNavigationBarType.shifting,
-        items: [
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home, color: Colors.black12),
-            title: new Text("Home", style: TextStyle(color: Colors.purple)),
-            activeIcon: new Icon(Icons.home, color: Colors.purple),
+            icon: Icon(Icons.home, color: Colors.black12),
+            title: Text("Home", style: TextStyle(color: Colors.purple)),
+            activeIcon: Icon(Icons.home, color: Colors.purple)
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.list, color: Colors.black12),
-            title: new Text("List", style: TextStyle(color: Colors.purple)),
-            activeIcon: new Icon(Icons.list, color: Colors.purple)
+              icon: Icon(Icons.list, color: Colors.black12),
+              title: Text("List", style: TextStyle(color: Colors.purple)),
+              activeIcon: Icon(Icons.list, color: Colors.purple)
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.chat, color: Colors.black12),
-            title: new Text("Chat", style: TextStyle(color: Colors.purple)),
-            activeIcon: new Icon(Icons.chat, color: Colors.purple)
+              icon: Icon(Icons.chat, color: Colors.black12),
+              title: Text("Chat", style: TextStyle(color: Colors.purple)),
+              activeIcon: Icon(Icons.chat, color: Colors.purple)
           )
         ],
-        onTap: onTabTapped,
       ),
+      tabBuilder: (context, index) {
+        return _childPages(index);
+      },
     );
   }
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIdx = index;
-    });
+  Widget _childPages(int index) {
+    switch(index) {
+      case 0: return CupertinoTabView(builder: (context) {
+        return CupertinoPageScaffold(
+          child: Home(),
+        );
+      });
+      case 1: return CupertinoTabView(builder: (context) {
+        return CupertinoPageScaffold(
+          child: Word(),
+        );
+      });
+      case 2: return CupertinoTabView(builder: (context) {
+        return CupertinoPageScaffold(
+          child: Chat(),
+        );
+      });
+    }
   }
 }
 
