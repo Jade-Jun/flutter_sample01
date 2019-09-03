@@ -46,38 +46,9 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
           ],
         ),
       ),
-    ),
-//      body: Container(
-//          child: Column(
-//            children: <Widget>[
-//              new Flexible(
-//                  child: ListView.builder(
-//                    padding: new EdgeInsets.all(8.0),
-//                    reverse: false,
-//                    itemBuilder: (_, int index) => _messages[index],
-//                    itemCount: _messages.length,
-//                  )
-//              ),
-//              new Divider(height: 1.0),
-//              new Container(
-//                decoration: new BoxDecoration(
-//                    color: Theme.of(context).cardColor
-//                ),
-//                child: _buildTextComposer(),
-//              )
-//            ],
-//          ),
-//          decoration: Theme.of(context).platform == TargetPlatform.iOS
-//              ? new BoxDecoration(
-//              border: new Border(
-//                  top: new BorderSide(color: Colors.grey[200])
-//              )
-//          )
-//              : null
-//      )
+      )
     );
   }
-
 
   @override
   void dispose() {
@@ -139,23 +110,46 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
           vsync: this,
           duration: new Duration(milliseconds: 700)
       ),
+      isResponse: false,
     );
+
+    ChatMessage chatResponse = new ChatMessage(
+      message: text,
+      animationController: new AnimationController(
+          vsync: this,
+          duration: new Duration(milliseconds: 700)
+      ),
+      isResponse: true,
+    );
+
     setState(() {
       _messages.insert(0, chatMessage);
+      _messages.insert(0, chatResponse);
     });
     chatMessage.animationController.forward();
+    chatResponse.animationController.forward();
   }
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({this.message, this.animationController});
+  ChatMessage({this.message, this.animationController, this.isResponse});
 
   final String message;
   final String _name = "jadejun";
+  final String _resName = "mison";
+  final bool isResponse;
   final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
+    if(isResponse) {
+      return _responseBuilder(context);
+    } else {
+      return _sendBuilder(context);
+    }
+  }
+
+  SizeTransition _sendBuilder(BuildContext context) {
     return new SizeTransition(
         sizeFactor: new CurvedAnimation(
             parent: animationController,
@@ -169,13 +163,63 @@ class ChatMessage extends StatelessWidget {
             children: <Widget>[
               new Container(
                 margin: const EdgeInsets.only(right: 16.0),
-                child: new CircleAvatar(child: new Text(_name[0])),
+                child: new CircleAvatar(
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(50),
+                      child:  Image.asset("images/ic_ryan.png",
+                        width: 600,
+                        height: 240,
+                        fit: BoxFit.cover,),
+                    )
+                ),
               ),
               Expanded(
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     new Text(_name, style: Theme.of(context).textTheme.subhead,),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 5.0),
+                      child: new Text(message),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+    );
+  }
+
+  SizeTransition _responseBuilder(BuildContext context) {
+    return new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: animationController,
+            curve: Curves.fastOutSlowIn
+        ),
+        axisAlignment: 0.0,
+        child: new Container(
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                margin: const EdgeInsets.only(right: 16.0),
+                child: new CircleAvatar(
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(50),
+                      child:  Image.asset("images/ic_apeach.png",
+                        width: 600,
+                        height: 240,
+                        fit: BoxFit.cover,),
+                    )
+                ),
+              ),
+              Expanded(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(_resName, style: Theme.of(context).textTheme.subhead,),
                     new Container(
                       margin: const EdgeInsets.only(top: 5.0),
                       child: new Text(message),
