@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_sample01/model/word_data.dart';
+import 'package:flutter_sample01/model/word_repository.dart';
+import 'package:flutter_sample01/word_row.dart';
 
 class Word extends StatefulWidget {
 
@@ -9,8 +12,8 @@ class Word extends StatefulWidget {
 
 class WordState extends State<Word> {
 
-  final List<WordPair> _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = Set<WordPair>();
+  final List<WordData> _suggestions = WordRepository.allData();
+  final Set<WordData> _saved = Set<WordData>();
   final TextStyle _style = const TextStyle(fontSize: 18);
 
   @override
@@ -29,43 +32,27 @@ class WordState extends State<Word> {
     ) ;
   }
 
+  void rowCallback(WordData data) {
+    final bool alreadySaved = _saved.contains(data);
+
+    if (alreadySaved) {
+      _saved.remove(data);
+    } else {
+      _saved.add(data);
+    }
+  }
+
   Widget _buildSuggestions() {
     return ListView.builder(
         padding: const EdgeInsets.all(16),
         itemBuilder: (BuildContext _context, int i) {
-          if (i.isOdd) {
-            return Divider();
-          }
-
-          final int index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-          return _buildRow(_suggestions[index]);
-        }
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final bool alreadySaved = _saved.contains(pair);
-    return ListTile(
-      title: Text (
-        pair.asPascalCase,
-        style: _style,
-      ),
-      trailing: Icon(
-          alreadySaved ? Icons.favorite : Icons.favorite_border,
-          color: alreadySaved ? Colors.red : null
-      ),
-      onTap: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
+          var row = WordRow(
+              wordData: _suggestions[i],
+              favorChanged: rowCallback,
+          );
+          return row;
+        },
+      itemCount: _suggestions.length,
     );
   }
 
@@ -74,10 +61,10 @@ class WordState extends State<Word> {
         MaterialPageRoute<void>(
             builder: (BuildContext _context) {
               final Iterable<ListTile> tiles = _saved.map(
-                      (WordPair pair) {
+                      (WordData pair) {
                     return ListTile(
                         title: Text(
-                          pair.asPascalCase,
+                          pair.name,
                           style: _style,
                         )
                     );

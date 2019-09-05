@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Flutter Sample2",
-      home: Route(),
+      home: DefaultTabController(
+        length: 3,
+        child: Route(),
+      )
     );
   }
 }
@@ -27,50 +30,37 @@ class RouteState extends State<Route> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.black12),
-            title: Text("Home", style: TextStyle(color: Colors.purple)),
-            activeIcon: Icon(Icons.home, color: Colors.purple)
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list, color: Colors.black12),
-              title: Text("List", style: TextStyle(color: Colors.purple)),
-              activeIcon: Icon(Icons.list, color: Colors.purple)
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat, color: Colors.black12),
-              title: Text("Chat", style: TextStyle(color: Colors.purple)),
-              activeIcon: Icon(Icons.chat, color: Colors.purple)
-          )
+    return Scaffold(
+      body: TabBarView(
+        children: <Widget>[
+          Home(),
+          Word(),
+          Chat()
         ],
       ),
-      tabBuilder: (context, index) {
-        return _childPages(index);
-      },
+      bottomNavigationBar: Material(
+        color: Colors.blue,
+        child:  TabBar(
+          tabs: <Widget>[
+            Tab(
+              icon: Icon(Icons.home, color: Colors.white),
+//            text: "Home"
+            ),
+            Tab(
+              icon: Icon(Icons.list, color: Colors.white),
+//            text: "List",
+            ),
+            Tab(
+              icon: Icon(Icons.chat, color: Colors.white),
+//            text: "chat",
+            )
+          ],
+          unselectedLabelColor: Colors.grey,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorColor: Colors.red[100],
+        )
+      )
     );
-  }
-
-  Widget _childPages(int index) {
-    switch(index) {
-      case 0: return CupertinoTabView(builder: (context) {
-        return CupertinoPageScaffold(
-          child: Home(),
-        );
-      });
-      case 1: return CupertinoTabView(builder: (context) {
-        return CupertinoPageScaffold(
-          child: Word(),
-        );
-      });
-      case 2: return CupertinoTabView(builder: (context) {
-        return CupertinoPageScaffold(
-          child: Chat(),
-        );
-      });
-    }
   }
 }
 
