@@ -20,6 +20,7 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
   final String _resName = "mison";
   bool _isComposing = false;
   bool _loading = false;
+  bool _isDisposed = false;
 
   ChatScreenState()  {
     getData();
@@ -39,9 +40,11 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
           )
       )
     });
-    setState(() {
-      _loading = true;
-    });
+    if (this.mounted && !_isDisposed) {
+      setState(() {
+        _loading = true;
+      });
+    }
   }
 
   @override
@@ -85,14 +88,13 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-
-    if (_messages.isNotEmpty) {
-      for (ChatMessage message in _messages) {
-        if (message.animationController != null) {
-          message.animationController.dispose();
-        }
+    _isDisposed = true;
+    for (ChatMessage message in _messages) {
+      if (message.animationController != null) {
+        message.animationController.dispose();
       }
     }
+
     super.dispose();
   }
 

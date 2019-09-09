@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sample01/web_tab.dart';
 import 'home.dart';
 import 'chat.dart';
@@ -8,6 +9,10 @@ import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt();
 void main() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   runApp(MyApp());
 }
 
@@ -41,7 +46,7 @@ class RouteState extends State<Route> {
           Home(),
           Word(),
           Chat(),
-          WebTab()
+          WebTab(),
         ],
       ),
       bottomNavigationBar: Material(
@@ -62,7 +67,7 @@ class RouteState extends State<Route> {
             ),
             Tab(
               icon: Icon(Icons.web, color: Colors.white),
-            )
+            ),
           ],
           unselectedLabelColor: Colors.grey,
           indicatorSize: TabBarIndicatorSize.tab,
