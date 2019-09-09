@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sample01/db/db_provider.dart';
 import 'package:flutter_sample01/db/model/message.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Chat extends StatefulWidget {
   final String title;
@@ -53,7 +54,11 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
       decoration: const BoxDecoration(
           color: Color(0xfff0f0f0)
       ),
-      child: SafeArea(
+      child: !_loading ?  Center(
+        child: SpinKitWave(
+          color: Colors.redAccent, type: SpinKitWaveType.center,
+        ),
+      ) : SafeArea(
         child: Column(
           children: <Widget>[
             Flexible(
