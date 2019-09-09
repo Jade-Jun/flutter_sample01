@@ -85,8 +85,13 @@ class ChatScreenState extends State<Chat> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    for (ChatMessage message in _messages) {
-      message.animationController.dispose();
+
+    if (_messages.isNotEmpty) {
+      for (ChatMessage message in _messages) {
+        if (message.animationController != null) {
+          message.animationController.dispose();
+        }
+      }
     }
     super.dispose();
   }

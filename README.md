@@ -19,6 +19,8 @@
   - english_word 패키지를 이용한 랜덤 단어 출력
   - ListView 사용 
   - 선택된 페이지를 따로 출력 및 상태 변경
+> web_tab.dart
+  - webview page
 > word_row.dart
   - word에서 뿌려지는 리스트에 대한 Widget 
 

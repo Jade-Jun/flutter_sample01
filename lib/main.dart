@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sample01/web_tab.dart';
 import 'home.dart';
 import 'chat.dart';
 import 'word.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Flutter Sample2",
       home: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Route(),
       )
     );
@@ -39,7 +40,8 @@ class RouteState extends State<Route> {
         children: <Widget>[
           Home(),
           Word(),
-          Chat()
+          Chat(),
+          WebTab()
         ],
       ),
       bottomNavigationBar: Material(
@@ -57,6 +59,9 @@ class RouteState extends State<Route> {
             Tab(
               icon: Icon(Icons.chat, color: Colors.white),
 //            text: "chat",
+            ),
+            Tab(
+              icon: Icon(Icons.web, color: Colors.white),
             )
           ],
           unselectedLabelColor: Colors.grey,
