@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'chat.dart';
 import 'word.dart';
+import 'package:get_it/get_it.dart';
 
-void main() => runApp(MyApp());
+GetIt locator = GetIt();
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
 

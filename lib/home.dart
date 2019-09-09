@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample01/utils/call_and_message_service.dart';
+import 'main.dart';
 
 class Home extends StatelessWidget {
+  final String phone = "123456789";
+  CallsAndMessagesService _service;
+
+  Home() {
+    locator.registerSingleton(CallsAndMessagesService());
+    _service = locator<CallsAndMessagesService>();
+  }
+
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).primaryColor;
@@ -65,9 +75,18 @@ class Home extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _buildButtonColumn(color, Icons.call, 'CALL'),
-          _buildButtonColumn(color, Icons.near_me, "ROUTE"),
-          _buildButtonColumn(color, Icons.share, "SHARE")
+          GestureDetector(
+            child: _buildButtonColumn(color, Icons.call, 'CALL'),
+            onTap: () => _service.call(phone),
+          ),
+          GestureDetector(
+            child: _buildButtonColumn(color, Icons.sms, "SMS"),
+            onTap: () => _service.sendSms(phone),
+          ),
+          GestureDetector(
+            child: _buildButtonColumn(color, Icons.email, "EMAIL"),
+            onTap: () => _service.sendEmail("test1234@gmail.com"),
+          )
         ],
       ),
     );
